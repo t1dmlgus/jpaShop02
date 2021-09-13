@@ -18,7 +18,6 @@ public class MemberService {
     public void join(Member member) {
 
         validateDuplicateMember(member);
-
         memberRepository.save(member);
     }
 
@@ -29,4 +28,11 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 회원입니다");
         }
     }
+
+    // 전체 회원 조회
+    public List<Member> findMemberList(){
+        return memberRepository.findByAll();
+    }
+
+
 }
