@@ -5,20 +5,22 @@ import com.s1dmlgus.jpaShop02.domain.member.Member;
 import com.s1dmlgus.jpaShop02.domain.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class MemberService {
 
     @Autowired
     public MemberRepository memberRepository;
 
     // 회원가입
-    public void join(Member member) {
-
+    public Long join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
+        return member.getId();
     }
 
     // 중복 회원 검증
