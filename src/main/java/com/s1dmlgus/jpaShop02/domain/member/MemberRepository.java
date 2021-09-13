@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class MemberRepository {
@@ -16,4 +17,10 @@ public class MemberRepository {
         em.persist(member);
     }
 
+    public List<Member> findByName(String memberName) {
+
+        return em.createQuery("SELECT m FROM Member m WHERE m.name = :name", Member.class)
+                .setParameter("name",memberName)
+                .getResultList();
+    }
 }
