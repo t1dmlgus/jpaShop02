@@ -20,8 +20,9 @@ class MemberServiceTest {
 
     /**
      * 회원 기능에서 검증해야 할 비즈니스 로직
-     * - 회원가입을 성공해야 한다.
-     * - 회원가입 할 때 같은 이름이 있으면 예외가 발생한다.
+     * 
+     * 1. 회원가입을 성공해야 한다.
+     * 2. 회원가입 할 때 중복된 이름이 있으면 예외가 발생한다.
      */
 
     @Autowired
@@ -44,7 +45,26 @@ class MemberServiceTest {
         assertThat(memberRepository.findOne(saveId)).isEqualTo(member);
     }
 
+    @DisplayName("중복된 회원 이름이 있는지 예외 처리 테스트")
+    @Test
+    public void testDuplicateName() throws Exception{
+        //given
+        Member member1 = new Member();
+        member1.setName("의현2");
 
+        Member member2 = new Member();
+        member2.setName("의현2");
+
+        //when
+        memberService.join(member1);
+
+        //then
+        assertThatThrownBy(() -> memberService.join(member2))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("이미 존재하는 회원입니다");
+
+
+    }
 
 
 }
